@@ -29,21 +29,32 @@ for i in range(100):
 	time.sleep(1)
 
 
-# for j in range(100):
-# 	# prints out average rating within html elements with these attributes
-# 	csv_file.write(avgRating)
-# 	csv_file.write("\n")
-# 	print(avgRating)
-# 	time.sleep(1)
+
 
 csv_file.close()
 
-
-# for k in range(100):
-# 	summary = soup.find_all('a', attrs={'class':'bookTitle'})
+base = 'https://www.goodreads.com'
 
 
-# do we need book summaries?
-# url2 = 'https://www.goodreads.com'
+# find book links
 
-# genURL = requests.get(url2)
+# bookLink = soup.find_all(class_='bookTitle', href=True)
+k = 1
+l = 0
+m = 31
+
+for link in soup.find_all('a', class_='bookTitle'):
+   	# print(link.get('href'))
+	# link.get('href')
+	book = link['href']
+	burl = base + book
+	# print(burl)
+	bookInfo = requests.get(burl)
+	book_specific_info = BeautifulSoup(bookInfo.text, 'html.parser')
+
+	book_pub = book_specific_info.find_all(class_="row")[k].text
+	book_pages = book_specific_info.find_all(class_="row")[l].text
+	book_summ = book_specific_info.find_all('span')[m].text
+	print(book_pub)
+	print(book_summ)
+	time.sleep(1)
